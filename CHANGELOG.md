@@ -50,8 +50,43 @@
 - Full integration of Decoy Networks feature for Environment Flooding with Fake Bluetooth and Wireless Access Points.
 - GUI integration for Automated Attack Sequences, Customizable Network Filters, and WPS Vulnerability Testing.
 
+### Added
+
+- **2025-05-24 18:30:00**: Implemented “Network Map” tab:
+  - Live packet sniffing using Scapy AsyncSniffer.
+  - Real-time table of BSSID, ESSID, packet counts, and OUI vendor lookups.
+
+### Added
+
+- **2025-05-24 18:45:00**: Added Packet Crafting & Injection tab in Attacks:
+  - UI for Deauth Flood, Beacon Flood, Custom TCP/UDP packet templates.
+  - Fields for packet type, target, channel/port, preview & send buttons.
+  - Scapy-based crafting & sending via sendp, with preview functionality.
+- **2025-05-24 18:50:00**: Integrated OUI vendor database via `manuf` library; fallback to internal mapping.
+- **2025-05-24 18:55:00**: Added topology visualization in Network Map tab:
+  - Scatter plot (channel vs packet count) using PyQtGraph.
+- **2025-05-24 19:05:00**: Geolocation overlay in Network Map tab:
+  - Button to generate folium map with markers via Wigle API lookups.
+- **2025-05-24 19:20:00**: Visual Attack Sequence Builder tab:
+  - Add/Edit/Remove step list, JSON input, define/start/stop sequence.
+
+- **2025-05-24 17:50:00**: Refactored Decoy Networks tab: UI now calls `start_wifi_flood`/`stop_wifi_flood` and `start_bluetooth_flood`/`stop_bluetooth_flood` with proper result handling.
+- **2025-05-24 17:50:00**: Added stubs in `main.py` for unimplemented scan and attack methods (e.g., start/stop deauth, handshake, evil AP, fakeauth) to prevent runtime errors and show placeholder dialogs.
+- **2025-05-24 17:50:00**: Introduced `log()` helper in `WiFiMarauderApp` to append timestamped messages to the Dashboard's Recent Logs panel.
+- **2025-05-24 17:50:00**: Added stub methods `load_vendors()` and `detect_interfaces()` to `WiFiMarauderApp` to satisfy initial calls without breaking the UI.
+- **2025-05-24 17:50:00**: Exposed alias `WiFiMarauderGUI = WiFiMarauderApp` for backward compatibility with existing tests.
+- **2025-05-24 17:50:00**: Configured Qt to use `offscreen` platform by default in both `main.py` and `test_features.py`, enabling headless testing environments.
+
+### Fixed
+
+- **2025-05-24 17:50:00**: Corrected syntax issues at end of `main.py` (removed unintended line continuation and placed alias correctly).
+- **2025-05-24 17:50:00**: Updated `test_features.py` to remove GUI instantiation and adapt to headless testing, fixing import and environment errors.
+
 ### In Progress
 
-- Further testing and refinement of Anonymity Tools features (Tor Network, DNS Leak Protection, IP Address Rotation, User-Agent and Fingerprint Spoofing, Temporal and Location Disguises, VPN Integration).
-- Implementation and testing of Decoy Networks feature for Environment Flooding with Fake Bluetooth and Wireless Access Points, with noted dependency issues.
-- Further testing and refinement of Automated Attack Sequences, Customizable Network Filters, and WPS Vulnerability Testing.
+- Further feature implementation for scan, attack, and WPS tabs in the GUI.
+- **2025-05-24 20:00:00**: Integrated Analytics tab:
+  - AP Vendor Distribution bar chart.
+  - Handshakes per ESSID bar chart.
+  - Attack Distribution pie chart (Deauth vs Captures vs Decoys).
+  - Refresh button to redraw charts on updated data.

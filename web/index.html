@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiFi Marauder Web Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>WiFi Marauder</h2>
+    <ul>
+      <li data-section="interfaces">Interfaces</li>
+      <li data-section="scan">Network Scan</li>
+      <li data-section="attacks">Attacks</li>
+      <li data-section="wps">WPS Testing</li>
+      <li data-section="anonymity">Anonymity</li>
+      <li data-section="decoys">Decoys</li>
+      <li data-section="analytics">Analytics</li>
+      <li data-section="tools">Tools</li>
+      <li data-section="guides">Guides</li>
+    </ul>
+  </div>
+  <div id="content">
+    <!-- Interfaces Section -->
+    <div id="interfaces" class="section">
+      <h3>Interfaces</h3>
+      <button id="refresh-interfaces">Refresh</button>
+      <ul id="interface-list"></ul>
+      <button id="enable-monitor">Enable Monitor Mode</button>
+    </div>
+    <!-- Network Scan Section -->
+    <div id="scan" class="section hidden">
+      <h3>Network Scan</h3>
+      Duration: <input type="number" id="scan-duration" value="30" min="5" max="300"> s
+      <button id="start-scan">Start Scan</button>
+      <div id="scan-progress"><div id="scan-progress-bar"></div></div>
+      <table id="scan-results"><thead><tr><th>BSSID</th><th>ESSID</th><th>Signal</th><th>Channel</th><th>Encryption</th></tr></thead><tbody></tbody></table>
+      <h4>Scan Logs</h4>
+      <table id="scan-logs"><thead><tr><th>ID</th><th>Timestamp</th><th>Interface</th><th>Duration</th><th>Output</th></tr></thead><tbody></tbody></table>
+      <h4>Raw Output</h4>
+      <pre id="scan-raw"></pre>
+    </div>
+    <!-- Placeholder for other sections -->
+    <div id="attacks" class="section hidden"><h3>Attacks (coming soon)</h3></div>
+    <div id="wps" class="section hidden"><h3>WPS Testing (coming soon)</h3></div>
+    <div id="anonymity" class="section hidden"><h3>Anonymity Tools (coming soon)</h3></div>
+    <div id="decoys" class="section hidden"><h3>Decoy Networks (coming soon)</h3></div>
+    <div id="analytics" class="section hidden"><h3>Analytics (coming soon)</h3></div>
+    <div id="tools" class="section hidden"><h3>Tools (coming soon)</h3></div>
+    <div id="guides" class="section hidden"><h3>Guides (coming soon)</h3></div>
+  </div>
+</body>
+</html>

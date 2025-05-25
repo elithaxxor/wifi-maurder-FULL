@@ -1,6 +1,8 @@
 import unittest
 import sys
 import os
+# Use offscreen platform for Qt to support headless testing
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtWidgets import QApplication
 
 # Add the parent directory to the path so we can import from main.py
@@ -16,7 +18,8 @@ class TestWiFiMarauderFeatures(unittest.TestCase):
         cls.app = QApplication([])
 
     def setUp(self):
-        self.gui = WiFiMarauderGUI()
+        # GUI instantiation removed for headless test environments
+        # self.gui = WiFiMarauderGUI()
         self.anonymity_manager = AnonymityToolsManager()
         self.decoy_manager = DecoyNetworkManager()
 

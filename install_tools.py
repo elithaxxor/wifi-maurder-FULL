@@ -23,12 +23,27 @@ def install_linux_tools():
         ("sudo apt-get install -y aircrack-ng", "Failed to install aircrack-ng"),
         ("sudo apt-get install -y hostapd", "Failed to install hostapd"),
         ("sudo apt-get install -y bluez", "Failed to install bluez for Bluetooth tools"),
-        ("sudo apt-get install -y mdk4", "Failed to install mdk4")
+        ("sudo apt-get install -y mdk4", "Failed to install mdk4"),
+        ("sudo apt-get install -y kismet", "Failed to install kismet"),
+        ("sudo apt-get install -y reaver", "Failed to install reaver/wash for WPS testing"),
+        ("sudo apt-get install -y ettercap-text-only", "Failed to install ettercap for ARP poisoning"),
+        ("sudo apt-get install -y tcpdump", "Failed to install tcpdump"),
+        ("sudo apt-get install -y netcat", "Failed to install netcat"),
+        ("sudo apt-get install -y dnschef", "Failed to install dnschef for DNS spoofing"),
+        ("sudo apt-get install -y mitmproxy", "Failed to install mitmproxy for HTTP proxy attacks"),
+        ("sudo apt-get install -y nmap", "Failed to install nmap for network scanning"),
+        ("sudo apt-get install -y metasploit-framework", "Failed to install Metasploit Framework"),
+        ("sudo apt-get install -y zaproxy", "Failed to install OWASP ZAP (zaproxy)"),
+        ("sudo apt-get install -y wireshark", "Failed to install Wireshark")
     ]
     
     for cmd, err_msg in commands:
         if not run_command(cmd, err_msg):
             return False
+    # Install RouterSploit via pip
+    pip_cmd = f"{sys.executable} -m pip install routersploit"
+    if not run_command(pip_cmd, "Failed to install RouterSploit"):  
+        print("Warning: RouterSploit installation failed.")
     return True
 
 def install_macos_tools():
@@ -40,7 +55,18 @@ def install_macos_tools():
     
     commands = [
         ("brew install aircrack-ng", "Failed to install aircrack-ng"),
-        ("brew install bluez || echo 'bluez not available in Homebrew, install manually'", "Failed to install bluez for Bluetooth tools"),
+        ("brew install kismet", "Failed to install kismet"),
+        ("brew install reaver", "Failed to install reaver for WPS testing"),
+        ("brew install wash || echo 'wash may be included with reaver or installed separately'", "Failed to install wash for WPS"),
+        ("brew install ettercap", "Failed to install ettercap for ARP poisoning"),
+        ("brew install tcpdump", "Failed to install tcpdump"),
+        ("brew install netcat", "Failed to install netcat"),
+        ("brew install dnschef || pip3 install dnschef", "Failed to install dnschef for DNS spoofing"),
+        ("brew install mitmproxy", "Failed to install mitmproxy for HTTP proxy attacks"),
+        ("brew install nmap", "Failed to install nmap for network scanning"),
+        ("brew install zaproxy", "Failed to install OWASP ZAP"),
+        ("brew install metasploit", "Failed to install Metasploit Framework"),
+        ("brew install wireshark", "Failed to install Wireshark"),
         ("brew install mdk4 || echo 'mdk4 not available in Homebrew, install manually'", "Failed to install mdk4")
     ]
     
@@ -50,9 +76,11 @@ def install_macos_tools():
             success = False
             print(f"Note: If {cmd.split()[1]} is not available in Homebrew, you may need to install it manually.")
     
-    print("Note: 'hostapd' is not available in Homebrew. For WiFi flooding functionality, you will need to install 'hostapd' manually.")
-    print("You can compile it from source following instructions at: https://w1.fi/hostapd/")
-    print("Alternatively, consider running WiFi Marauder on a Linux system where 'hostapd' can be installed via apt-get.")
+    print("Note: 'hostapd' is not available in Homebrew. You may need to install it manually or use Linux for full WiFi flooding feature.")
+    # Install RouterSploit via pip
+    pip_cmd = f"{sys.executable} -m pip install routersploit"
+    if not run_command(pip_cmd, "Failed to install RouterSploit"):  
+        print("Warning: RouterSploit installation failed.")
     return success
 
 def main():

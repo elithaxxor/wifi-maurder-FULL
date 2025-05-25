@@ -53,29 +53,35 @@ flowchart TD
 
 ## Installation
 
+Follow these steps to install and run WiFi Marauder:
+
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/yourusername/wifi_marauder.git
    cd wifi_marauder
    ```
-2. **Set Up Virtual Environment**:
+2. **Make Installer Executable**:
+   ```bash
+   chmod +x install_and_run.sh
+   ```
+3. **Run Automated Installer**:
+   ```bash
+   ./install_and_run.sh
+   ```
+   This will:
+   - Create a Python 3 virtual environment and install Python dependencies
+   - Install external tools (aircrack-ng, mdk4, kismet, reaver/wash, ettercap, tcpdump, netcat, dnschef, mitmproxy, nmap, Metasploit Framework, OWASP ZAP, Wireshark, RouterSploit)
+   - Launch the GUI application
+4. **Manual Setup (Optional)**:
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. **Optional for nicer dark theme**:
-   ```bash
-   pip install qdarktheme
-   ```
-5. **Run the Application**:
-   ```bash
+   source venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt pytest qdarktheme
+   python install_tools.py  # best-effort tool installation
    python main.py
    ```
-**Note**: Some features require specific tools like `airmon-ng` and `hostapd` which are not fully supported on macOS. Mock functionality is provided for testing on such platforms. For the best visual experience install `qdarktheme`.
+   _Note_: On macOS, some tools may require manual installation.
 
 ## Usage
 

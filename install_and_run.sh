@@ -42,7 +42,7 @@ if [ -f requirements.txt ]; then
 fi
 
 # Extra libraries used by the toolkit
-pip install --quiet qdarktheme pyshark watchdog cryptography fastapi uvicorn flask
+pip install --quiet qdarktheme pyshark watchdog cryptography fastapi uvicorn flask pytest
 
 # ---------- OS-Level Tooling ----------
 print_section "Installing external Wi-Fi & Bluetooth tooling (optional)…"
