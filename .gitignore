@@ -55,3 +55,4 @@ Desktop.ini
 *.pem
 *.crt
 *.pub
+.env
