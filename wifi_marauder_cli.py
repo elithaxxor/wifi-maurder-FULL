@@ -30,6 +30,12 @@ except ImportError as exc:  # pragma: no cover
     print(json.dumps({"success": False, "error": f"Failed to import OSINT modules: {exc}"}))
     sys.exit(1)
 
+try:
+    from kit import nmap_scan
+except ImportError as exc:  # pragma: no cover
+    print(json.dumps({"success": False, "error": f"Failed to import nmap module: {exc}"}))
+    sys.exit(1)
+
 
 def as_json(data):
     """Print *data* as prettified JSON and exit."""
@@ -84,6 +90,13 @@ def cmd_status(_args):
     })
 
 
+def cmd_nmap_scan(args):
+    """Run an nmap scan and return parsed results."""
+    xml = nmap_scan.run_scan(args.target, flags=args.flags)
+    hosts = nmap_scan.parse_xml(xml)
+    as_json({"success": True, "hosts": hosts})
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="WiFi Marauder CLI")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -116,6 +129,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     # Status
     sub.add_parser("status", help="Show decoy flood status").set_defaults(func=cmd_status)
+
+    # Nmap scan
+    nmap = sub.add_parser("nmap-scan", help="Run nmap scan and return results")
+    nmap.add_argument("target", help="Target host or network")
+    nmap.add_argument("--flags", default="-sV", help="Additional nmap flags")
+    nmap.set_defaults(func=cmd_nmap_scan)
 
     # OSINT – Shodan search
     shodan = sub.add_parser("shodan-search", help="Search Shodan hosts")
