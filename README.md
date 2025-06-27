@@ -1,3 +1,37 @@
+# WiFi Marauder v2.0 🚀  
+A cross‑platform (Linux & macOS) **wireless attack and analysis framework** with an optional GUI, a CLI fallback, and a one‑click installation script.
+
+![screenshot](docs/images/dashboard.png)
+
+---
+
+## Highlights (2.0)
+
+| Category | New in 2 .0 |
+|----------|-------------|
+| Capture  | PMKID & 4‑way handshake harvesting with **hcxdumptool** |
+| Cracking | GPU‑accelerated hash‑cracking pipeline (**hashcat**) + live GPU monitor |
+| MITM     | **Bettercap** integration for Wi‑Fi, BLE & DNS spoofing |
+| Evil Twin| Automated rogue AP builder (**hostapd‑mana**) with captive‑portal templates |
+| Audit    | One‑click **Wifite2** workflow launcher |
+| Analysis | **Zeek** background parser, Airgraph‑NG topology visualiser, Folium wardriving maps |
+| OSINT    | Shodan + Censys enrichment; Wigle geolocation overlay |
+| DevOps   | GitHub Actions CI, `.deb` package, Homebrew formula, AppImage |
+
+---
+
+## Installation
+
+### Linux (Debian / Ubuntu)
+
+```bash
+git clone https://github.com/elithaxxor/wifi-maurder-FULL.git
+cd wifi-maurder-FULL
+chmod +x install_and_run.sh
+./install_and_run.sh      # uses apt, venv & launches GUI
+
+
+
 # WiFi Marauder
 
 ![WiFi Marauder Logo](logo.png)
