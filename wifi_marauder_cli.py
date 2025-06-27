@@ -36,6 +36,13 @@ except ImportError as exc:  # pragma: no cover
     print(json.dumps({"success": False, "error": f"Failed to import nmap module: {exc}"}))
     sys.exit(1)
 
+try:
+    from kit import scheduler
+    from kit.db import DatabaseManager
+except ImportError as exc:  # pragma: no cover
+    print(json.dumps({"success": False, "error": f"Failed to import scheduler modules: {exc}"}))
+    sys.exit(1)
+
 
 def as_json(data):
     """Print *data* as prettified JSON and exit."""
@@ -97,6 +104,15 @@ def cmd_nmap_scan(args):
     as_json({"success": True, "hosts": hosts})
 
 
+def cmd_run_schedule(args):
+    """Run scheduled scans defined in a JSON file."""
+    db = DatabaseManager()
+    sched = scheduler.ScanScheduler(db, args.schedule_file)
+    sched.run_pending()
+    db.close()
+    as_json({"success": True, "ran": list(sched.last_run.keys())})
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="WiFi Marauder CLI")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -151,6 +167,10 @@ def build_parser() -> argparse.ArgumentParser:
         "success": True,
         "results": WigleClient().search_networks(args.ssid, results_per_page=100),
     }))
+
+    sched = sub.add_parser("run-schedule", help="Run scan schedule from JSON file")
+    sched.add_argument("schedule_file", help="Path to schedule JSON")
+    sched.set_defaults(func=cmd_run_schedule)
 
     return p
 
