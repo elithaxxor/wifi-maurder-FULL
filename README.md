@@ -3,6 +3,8 @@ A cross‑platform (Linux & macOS) **wireless attack and analysis framework** wi
 
 ![screenshot](docs/images/dashboard.png)
 
+chmod +x setup.sh
+./setup.sh
 ---
 
 ## Highlights (2.0)
