@@ -97,7 +97,7 @@ except ImportError:
     NFM = None
 
 try:
-    from wps_vulnerability_tester import WPSVulnerabilityTester
+    from wps_vulnerability_logic import WPSVulnerabilityTester
 except ImportError:
     print("Warning: WPSVulnerabilityTester not available. Functionality will be limited.")
     WPSVulnerabilityTester = None
