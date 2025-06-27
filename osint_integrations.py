@@ -17,7 +17,10 @@ from __future__ import annotations
 import os
 from typing import Any, Dict, List, Optional
 
-import requests
+try:
+    import requests
+except Exception as exc:  # noqa: BLE001
+    requests = None
 
 
 class ShodanClient:
@@ -30,6 +33,8 @@ class ShodanClient:
     BASE_URL = "https://api.shodan.io"
 
     def __init__(self, api_key: Optional[str] = None, *, timeout: int = 10) -> None:
+        if requests is None:
+            raise ImportError('requests not installed')
         self.api_key = api_key or os.getenv("SHODAN_API_KEY")
         if not self.api_key:
             raise ValueError("Shodan API key not provided or SHODAN_API_KEY env-var missing.")
@@ -89,6 +94,8 @@ class WigleClient:
     BASE_URL = "https://api.wigle.net/api/v2"
 
     def __init__(self, auth_token: Optional[str] = None, *, timeout: int = 10) -> None:
+        if requests is None:
+            raise ImportError('requests not installed')
         self.auth_token = auth_token or os.getenv("WIGLE_AUTH_TOKEN")
         if not self.auth_token:
             raise ValueError(

@@ -1,4 +1,4 @@
-# WiFi Marauder v2.0 🚀  
+# WiFi Marauder v2.0.0 🚀
 A cross‑platform (Linux & macOS) **wireless attack and analysis framework** with an optional GUI, a CLI fallback, and a one‑click installation script.
 
 ![screenshot](docs/images/dashboard.png)
@@ -125,6 +125,7 @@ Follow these steps to install and run WiFi Marauder:
 - Navigate through the tabs to access different features.
 - Click buttons to initiate actions like IP rotation, VPN connection, or starting a decoy network flood.
 - Status indicators on each tab will update to reflect the current state of each feature.
+- New tabs include MITM/BLE control, EvilAP builder, network topology graphing, and GPU monitoring.
 
 ## Future Add-ons
 

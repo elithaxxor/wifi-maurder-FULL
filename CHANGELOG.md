@@ -1,8 +1,17 @@
 # WiFi Marauder Changelog
 
-## [Unreleased]
+## [2.0.0] - 2025-05-26
 
 ### Added
+- PMKID & handshake capture with GPU cracking
+- Bettercap MITM/BLE controls via GUI
+- Evil-Twin builder using hostapd-mana
+- One-click Wifite2 wrapper
+- Airgraph network topology visualisation
+- Background Zeek parsing of pcaps
+- Wigle geolocation overlays & Shodan/Censys enrichment
+- GPU monitoring widget and CSV export
+### Previous entries
 
 - **2025-05-19 12:57:21-04:00**: Initial integration of Anonymity Tools and Decoy Networks into the main application.
   - Added imports for `AnonymityToolsManager` and `DecoyNetworkManager` in `main.py`.

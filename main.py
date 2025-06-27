@@ -13,6 +13,14 @@ from kit.attacks import build_deauth_cmd, start_deauth, stop_attack, build_packe
 from kit.analytics import count_vendors, count_handshakes, count_attacks, plot_bar, plot_pie
 from kit.db import DatabaseManager as KitDatabaseManager
 from kit.crack import CrackManager
+from kit.pmkid import capture_handshakes, crack_capture
+from kit.mitm import start_mitm, stop_mitm
+from kit.evil_twin import start_evil_ap, stop_evil_ap
+from kit.wifite_wrapper import run_wifite
+from kit.topology import graph_from_airgraph
+from kit.zeek_analyzer import ZeekAnalyzer
+from kit.geolocation import map_network
+from kit.gpu_monitor import query_gpu
 import json
 import random
 import csv
@@ -316,6 +324,10 @@ class WiFiMarauderApp(QMainWindow):
         tabs.addTab(self.create_filters_tab(), "Network Filters")
         tabs.addTab(self.create_wps_tab(), "WPS Testing")
         tabs.addTab(self.create_analytics_tab(), "Analytics")
+        tabs.addTab(self.create_mitm_tab(), "MITM/BLE")
+        tabs.addTab(self.create_evilap_tab(), "EvilAP Builder")
+        tabs.addTab(self.create_topology_tab(), "Topology")
+        tabs.addTab(self.create_gpu_tab(), "GPU Monitor")
         tabs.addTab(self.create_logs_tab(), "Logs && Analysis")
         # OSINT lookups tab
         tabs.addTab(OSINTTab(), "OSINT Lookup")
@@ -2107,6 +2119,98 @@ class WiFiMarauderApp(QMainWindow):
         except Exception as e:
             QMessageBox.warning(self, "Send Error", str(e))
             self.packet_status.setText("Error")
+
+    # ---------------------------
+    # MITM/BLE tab methods
+    # ---------------------------
+    def create_mitm_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+        self.mitm_start = QPushButton("Start Bettercap")
+        self.mitm_stop = QPushButton("Stop Bettercap")
+        self.mitm_status = QLabel("Idle")
+        self.mitm_start.clicked.connect(self.start_mitm)
+        self.mitm_stop.clicked.connect(self.stop_mitm)
+        layout.addWidget(self.mitm_start)
+        layout.addWidget(self.mitm_stop)
+        layout.addWidget(self.mitm_status)
+        return tab
+
+    def start_mitm(self):
+        iface = self.scan_interface.currentText() if hasattr(self, 'scan_interface') else 'wlan0'
+        self.mitm_proc = start_mitm(iface)
+        self.mitm_status.setText("Running")
+
+    def stop_mitm(self):
+        if hasattr(self, 'mitm_proc'):
+            stop_mitm(self.mitm_proc)
+            self.mitm_status.setText("Stopped")
+
+    # ---------------------------
+    # EvilAP builder methods
+    # ---------------------------
+    def create_evilap_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+        self.evil_conf_dir = QLineEdit()
+        layout.addWidget(QLabel("Config Directory"))
+        layout.addWidget(self.evil_conf_dir)
+        start_btn = QPushButton("Start EvilAP")
+        stop_btn = QPushButton("Stop EvilAP")
+        start_btn.clicked.connect(self.run_evilap)
+        stop_btn.clicked.connect(self.stop_evilap_proc)
+        layout.addWidget(start_btn)
+        layout.addWidget(stop_btn)
+        return tab
+
+    def run_evilap(self):
+        conf_dir = self.evil_conf_dir.text() or '.'
+        self.evil_proc = start_evil_ap(conf_dir)
+
+    def stop_evilap_proc(self):
+        if hasattr(self, 'evil_proc'):
+            stop_evil_ap(self.evil_proc)
+
+    # ---------------------------
+    # Topology tab
+    # ---------------------------
+    def create_topology_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+        self.topology_file = QLineEdit()
+        layout.addWidget(QLabel("GraphML File"))
+        layout.addWidget(self.topology_file)
+        gen_btn = QPushButton("Generate Graph")
+        gen_btn.clicked.connect(self.generate_topology)
+        layout.addWidget(gen_btn)
+        self.topology_status = QLabel("Idle")
+        layout.addWidget(self.topology_status)
+        return tab
+
+    def generate_topology(self):
+        graphml = Path(self.topology_file.text())
+        out_html = graphml.with_suffix('.html')
+        graph_from_airgraph(graphml, out_html)
+        self.topology_status.setText(str(out_html))
+
+    # ---------------------------
+    # GPU monitor tab
+    # ---------------------------
+    def create_gpu_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout(tab)
+        self.gpu_label = QLabel("No GPU data")
+        layout.addWidget(self.gpu_label)
+        self.gpu_timer = QTimer(self)
+        self.gpu_timer.timeout.connect(self.update_gpu_stats)
+        self.gpu_timer.start(5000)
+        return tab
+
+    def update_gpu_stats(self):
+        stats = query_gpu()
+        if stats:
+            self.gpu_label.setText(f"GPU {stats.utilization}% {stats.temperature}C")
+            self.db_manager.insert_gpu_stat(stats.utilization, stats.temperature)
 
 # Alias for backward compatibility / tests
 WiFiMarauderGUI = WiFiMarauderApp

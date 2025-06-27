@@ -5,3 +5,5 @@ manuf>=0.3.0
 pyqtgraph>=0.13.0
 folium>=0.14.0
 pytest>=7.0.0
+pyvis>=0.3.2
+networkx>=2.5
