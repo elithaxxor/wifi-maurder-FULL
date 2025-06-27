@@ -1,0 +1,9 @@
+Source: wifi-marauder
+Package: wifi-marauder
+Version: 2.0.0
+Section: net
+Priority: optional
+Architecture: all
+Depends: python3, aircrack-ng
+Maintainer: Example <example@example.com>
+Description: WiFi Marauder toolkit

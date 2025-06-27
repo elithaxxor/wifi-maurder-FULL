@@ -4,6 +4,7 @@ Provides methods for logging scans, captures, deauths, anonymity logs,
 decoy activities, cracks, EvilAP, and FakeAuth events.
 """
 import sqlite3
+from pathlib import Path
 from datetime import datetime
 
 class DatabaseManager:
@@ -87,6 +88,14 @@ class DatabaseManager:
                 status TEXT
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS gpu_stats (
+                id INTEGER PRIMARY KEY,
+                timestamp TEXT,
+                utilization INTEGER,
+                temperature INTEGER
+            )
+        ''')
         self.conn.commit()
 
     def insert_scan(self, interface, duration, output):
@@ -164,6 +173,16 @@ class DatabaseManager:
         self.conn.commit()
         return cursor.lastrowid
 
+    def insert_gpu_stat(self, utilization: int, temperature: int) -> int:
+        cursor = self.conn.cursor()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        cursor.execute(
+            "INSERT INTO gpu_stats (timestamp, utilization, temperature) VALUES (?, ?, ?)",
+            (timestamp, utilization, temperature)
+        )
+        self.conn.commit()
+        return cursor.lastrowid
+
     def get_scan_logs(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM scans ORDER BY timestamp DESC")
@@ -209,5 +228,29 @@ class DatabaseManager:
         cursor.execute("SELECT * FROM fakeauths")
         return cursor.fetchall()
 
+    def export_csv(self, out_dir: str) -> None:
+        import csv
+        tables = [
+            "scans",
+            "captures",
+            "deauths",
+            "anonymity_logs",
+            "decoy_activities",
+            "cracks",
+            "evilaps",
+            "fakeauths",
+            "gpu_stats",
+        ]
+        for table in tables:
+            rows = self.conn.execute(f"SELECT * FROM {table}").fetchall()
+            if not rows:
+                continue
+            headers = [d[0] for d in self.conn.execute(f"PRAGMA table_info({table})")] 
+            with open(Path(out_dir) / f"{table}.csv", "w", newline="") as fh:
+                writer = csv.writer(fh)
+                writer.writerow(headers)
+                writer.writerows(rows)
+
     def close(self):
         self.conn.close()
+
