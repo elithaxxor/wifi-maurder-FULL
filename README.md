@@ -86,6 +86,7 @@ flowchart TD
 - **WPS Vulnerability Testing**: Test for WPS vulnerabilities using Pixie Dust and brute force attacks.
 - **Packet Crafting and Injection**: Craft and send custom packets using Scapy to test network vulnerabilities or simulate specific types of network traffic.
 - **Network Sniffing and Mapping**: Use Scapy to map network topologies by analyzing packet headers to identify active devices, IP addresses, and OS. Integrated into the Network Scan tab for detailed network maps.
+- **Scheduled Scan Profiles**: Load JSON schedules to automatically run WiFi scans at defined intervals using the CLI.
 
 ## Installation
 
