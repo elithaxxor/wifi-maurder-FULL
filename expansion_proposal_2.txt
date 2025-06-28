@@ -1,0 +1,48 @@
+Network Security Monitor Expansion Proposal #2
+=============================================
+
+Date: May 20, 2025
+Prepared by: Codex AI Assistant
+
+Introduction
+------------
+This proposal outlines additional features that build on the existing WiFi Marauder framework to transform it into a comprehensive network security monitoring solution. The goal is to enhance real-time visibility, streamline analysis workflows, and provide flexible deployment options for professional security teams.
+
+Proposed Features
+-----------------
+1. **Threat Intelligence Feeds**
+   - Integrate external sources such as AlienVault OTX or AbuseIPDB for live threat data.
+   - Display feed summaries on the dashboard and automatically correlate with scan results.
+
+2. **Role-Based Access Control**
+   - Implement multi-user authentication with granular permissions.
+   - Allow administrators to restrict tool usage and data access by role.
+
+3. **Centralized API Key Management**
+   - Secure storage and rotation of third-party service keys (Shodan, WiGLE, etc.).
+   - Provide an interface for adding, revoking, or auditing API credentials.
+
+4. **Scheduled Scanning Engine**
+   - Enable recurring scans with cron-like scheduling from the GUI.
+   - Support custom scan profiles and automated report delivery.
+
+5. **SIEM / ELK Stack Export**
+   - Add one-click export of logs to common security information and event management systems.
+   - Include mappings for Elasticsearch/Kibana dashboards.
+
+6. **Dockerized Deployment Options**
+   - Offer container images for backend services and a lightweight React front end.
+   - Simplify installation on cloud platforms or internal infrastructure.
+
+7. **Machine-Learning Anomaly Detection**
+   - Utilize statistical models to flag unusual traffic patterns in real time.
+   - Provide training options on historical data stored in SQLite.
+
+8. **Mobile Companion Notifications**
+   - Optional mobile app or PWA for receiving critical alerts while away from the console.
+   - Supports push notifications for new vulnerabilities or scan completions.
+
+Implementation Considerations
+-----------------------------
+These features can be phased in alongside the existing roadmap. Priority should be given to secure API key handling and role-based permissions before exposing more automation capabilities. Docker images will aid testing and streamline upgrades for users.
+
